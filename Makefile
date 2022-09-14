@@ -7,4 +7,10 @@ all: ${OBJFILES}
 	ar rcs liblua-batteries.a ${OBJFILES}
 
 clean:
-	rm -f *.o */*.o *.a */*.a
+	find . -type f -name \*.o -exec rm '{}' \;
+	rm -f *.a
+
+deps:
+	git submodule update
+	cp ~/github/fennel/fennel.lua .
+	curl https://raw.githubusercontent.com/slembcke/debugger.lua/master/debugger.lua >debugger.lua

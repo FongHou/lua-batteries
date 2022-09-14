@@ -785,7 +785,7 @@ exports.max_by = export1(max_by)
 methods.maximum_by = methods.max_by
 exports.maximum_by = exports.max_by
 
-local tolist = function(gen_x, param_x, state_x)
+local totable = function(gen_x, param_x, state_x)
     jit.flush()
     local tab, key, val = {}
     while true do
@@ -797,8 +797,8 @@ local tolist = function(gen_x, param_x, state_x)
     end
     return tab
 end
-methods.tolist = method0(tolist)
-exports.tolist = export0(tolist)
+methods.totable = method0(totable)
+exports.totable = export0(totable)
 
 local tomap = function(gen_x, param_x, state_x)
     jit.flush()
