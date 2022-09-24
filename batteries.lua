@@ -4,61 +4,74 @@
 	a collection of helpful code to get your project off the ground faster
 ]]
 
+--setup fennel
+local fennel = require("fennel")
+table.insert(package.loaders or package.searchers, fennel.makeSearcher({correlate=true}))
+
+if os.getenv("DEBUG") then
+  local dbg = require "debugger"
+  _G.dbg = dbg
+  _G.error = dbg.error
+  _G.assert = dbg.assert
+else
+  _G.dbg = function() end
+end
+
 --build the module
 local _batteries = {
-	--
-	class = require("class"),
-	--
-	assert = require("assert"),
-	--extension libraries
-	mathx = require("mathx"),
-	tablex = require("tablex"),
-	stringx = require("stringx"),
-	--sorting routines
-	sort = require("sort"),
-	--collections
-    fun = require("fun"),
-	sequence = require("sequence"),
-	set = require("set"),
-    json = require("json"),
+  --
+  class = require("class"),
+  --
+  assert = require("assert"),
+  --extension libraries
+  mathx = require("mathx"),
+  tablex = require("tablex"),
+  stringx = require("stringx"),
+  --sorting routines
+  sort = require("sort"),
+  --collections
+  sequence = require("sequence"),
+  set = require("set"),
+  json = require("json"),
+  fun = require("fun"),
 }
 
 --assign aliases
 for _, alias in ipairs({
-	{"mathx", "math"},
-	{"tablex", "table"},
-	{"stringx", "string"},
-	{"sort", "stable_sort"},
+  { "mathx", "math" },
+  { "tablex", "table" },
+  { "stringx", "string" },
+  { "sort", "stable_sort" },
 }) do
-	_batteries[alias[2]] = _batteries[alias[1]]
+  _batteries[alias[2]] = _batteries[alias[1]]
 end
 
 --easy export globally if required
 function _batteries:export()
-	--export all key strings globally, if doesn't already exist
-	for k, v in pairs(self) do
-		if _G[k] == nil then
-			_G[k] = v
-		end
-	end
+  --export all key strings globally, if doesn't already exist
+  for k, v in pairs(self) do
+    if _G[k] == nil then
+      _G[k] = v
+    end
+  end
 
-	--overlay tablex and sort routines onto table
-	self.tablex.shallow_overlay(table, self.tablex)
-	self.sort:export()
+  --overlay tablex and sort routines onto table
+  self.tablex.shallow_overlay(table, self.tablex)
+  self.sort:export()
 
-	--overlay onto global math table
-	table.shallow_overlay(math, self.mathx)
+  --overlay onto global math table
+  table.shallow_overlay(math, self.mathx)
 
-	--overlay onto string
-	table.shallow_overlay(string, self.stringx)
+  --overlay onto string
+  table.shallow_overlay(string, self.stringx)
 
-	--overwrite assert wholesale (it's compatible)
-	assert = self.assert
+  --overwrite assert wholesale (it's compatible)
+  _G.assert = self.assert
 
-	--like ipairs, but in reverse
-	_G.ripairs = self.tablex.ripairs
+  --like ipairs, but in reverse
+  _G.ripairs = self.tablex.ripairs
 
-	return self
+  return self
 end
 
 setmetatable(_batteries, {
