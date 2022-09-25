@@ -8,6 +8,7 @@
 local fennel = require("fennel")
 table.insert(package.loaders or package.searchers, fennel.makeSearcher({correlate=true}))
 
+--setup debugger
 if os.getenv("DEBUG") then
   local dbg = require "debugger"
   _G.dbg = dbg
@@ -30,8 +31,9 @@ local _batteries = {
   --sorting routines
   sort = require("sort"),
   --collections
-  sequence = require("sequence"),
-  set = require("set"),
+  Seq = require("sequence"),
+  Set = require("set"),
+  --
   json = require("json"),
   fun = require("fun"),
 }
