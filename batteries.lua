@@ -6,11 +6,11 @@
 
 --setup fennel
 local fennel = require("fennel")
-table.insert(package.loaders or package.searchers, fennel.makeSearcher({correlate=true}))
+table.insert(package.loaders or package.searchers, fennel.makeSearcher({ correlate = true }))
 
 --setup debugger
 if os.getenv("DEBUG") then
-  local dbg = require "debugger"
+  local dbg = require("debugger")
   _G.dbg = dbg
   _G.error = dbg.error
   _G.assert = dbg.assert
@@ -33,9 +33,6 @@ local _batteries = {
   --collections
   Seq = require("sequence"),
   Set = require("set"),
-  --
-  json = require("json"),
-  fun = require("fun"),
 }
 
 --assign aliases
@@ -77,7 +74,9 @@ function _batteries:export()
 end
 
 setmetatable(_batteries, {
-  __call = function(t) return t:export() end
+  __call = function(t)
+    return t:export()
+  end,
 })
 
 return _batteries
