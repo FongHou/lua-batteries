@@ -4,20 +4,6 @@
 	a collection of helpful code to get your project off the ground faster
 ]]
 
---setup fennel
-local fennel = require("fennel")
-table.insert(package.loaders or package.searchers, fennel.makeSearcher({ correlate = true }))
-
---setup debugger
-if os.getenv("DEBUG") then
-  local dbg = require("debugger")
-  _G.dbg = dbg
-  _G.error = dbg.error
-  _G.assert = dbg.assert
-else
-  _G.dbg = function() end
-end
-
 --build the module
 local _batteries = {
   --
@@ -78,5 +64,15 @@ setmetatable(_batteries, {
     return t:export()
   end,
 })
+
+--setup debugger
+if os.getenv("DEBUG") then
+  local dbg = require("debugger")
+  _G.dbg = dbg
+  _G.error = dbg.error
+  _G.assert = dbg.assert
+else
+  _G.dbg = function() end
+end
 
 return _batteries
