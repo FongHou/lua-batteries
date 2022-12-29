@@ -1,9 +1,13 @@
+LUAFILES  = $(shell find -type f -name '*.fnl' | sed 's/.fnl$$/.lua/')
 OBJFILES = $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
+
+%.lua: %.fnl
+	fennel -c $< >$@
 
 %.o: %.lua
 	luajit -b $< $@
 
-all: ${OBJFILES}
+all: ${OBJFILES} ${LUAFILES}
 	ar rcs libljbatteries.a ${OBJFILES}
 
 clean:
