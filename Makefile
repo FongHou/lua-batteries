@@ -8,7 +8,7 @@ OBJFILES = $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
 	luajit -b $< $@
 
 all: ${OBJFILES} ${LUAFILES}
-	ar rcs libljbatteries.a ${OBJFILES}
+	ar rcs libluabatteries.a ${OBJFILES}
 
 clean:
 	find . -type f -name \*.o -exec rm '{}' \;
