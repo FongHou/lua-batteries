@@ -17,4 +17,3 @@ clean:
 deps:
 	git submodule update
 	curl https://raw.githubusercontent.com/slembcke/debugger.lua/master/debugger.lua >debugger.lua
-	# curl https://raw.githubusercontent.com/allegory-software/allegory-sdk/master/lua/time.lua >time.lua
