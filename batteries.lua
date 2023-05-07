@@ -4,7 +4,17 @@
 	a collection of helpful code to get your project off the ground faster
 ]]
 
---build the module
+--setup debugger
+if os.getenv("DEBUG") then
+  local dbg = require("debugger")
+  _G.dbg = dbg
+  _G.error = dbg.error
+  _G.assert = dbg.assert
+else
+  _G.dbg = function() end
+end
+
+--setup batteries
 local _batteries = {
   --
   class = require("class"),
@@ -64,15 +74,5 @@ setmetatable(_batteries, {
     return t:export()
   end,
 })
-
---setup debugger
-if os.getenv("DEBUG") then
-  local dbg = require("debugger")
-  _G.dbg = dbg
-  _G.error = dbg.error
-  _G.assert = dbg.assert
-else
-  _G.dbg = function() end
-end
 
 return _batteries
