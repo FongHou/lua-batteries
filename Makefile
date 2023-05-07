@@ -1,5 +1,5 @@
-LUAFILES = $(shell find -type f -name '*.fnl' | sed 's/.fnl$$/.lua/')
-OBJFILES = $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
+FNL_SRC= $(shell find -type f -name '*.fnl' | sed 's/.fnl$$/.lua/')
+OBJS= $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
 
 %.lua: %.fnl
 	fennel -c $< >$@
@@ -7,8 +7,8 @@ OBJFILES = $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
 %.o: %.lua
 	luajit -b $< $@
 
-all: ${OBJFILES}
-	ar rcs libluabatteries.a ${OBJFILES}
+all: ${OBJS}
+	ar rcs libluabatteries.a ${OBJS}
 
 clean:
 	find . -type f -name \*.o -exec rm '{}' \;

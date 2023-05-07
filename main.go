@@ -8,7 +8,7 @@ import (
 	glua "github.com/RyouZhang/go-lua"
 )
 
-// #cgo LDFLAGS: -L/usr/local/lib -lluajit-5.1 -L${SRCDIR} -Wl,--whole-archive -lluabatteries -Wl,--no-whole-archive
+// #cgo LDFLAGS: -static-libgcc -L/usr/local/lib -lluajit-5.1 -L${SRCDIR} -Wl,--whole-archive -lluabatteries -Wl,--no-whole-archive
 import "C"
 
 func main() {
