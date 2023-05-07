@@ -1,4 +1,4 @@
-LUAFILES  = $(shell find -type f -name '*.fnl' | sed 's/.fnl$$/.lua/')
+LUAFILES = $(shell find -type f -name '*.fnl' | sed 's/.fnl$$/.lua/')
 OBJFILES = $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
 
 %.lua: %.fnl
@@ -7,7 +7,7 @@ OBJFILES = $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
 %.o: %.lua
 	luajit -b $< $@
 
-all: ${OBJFILES} ${LUAFILES}
+all: ${OBJFILES}
 	ar rcs libluabatteries.a ${OBJFILES}
 
 clean:
@@ -15,5 +15,4 @@ clean:
 	rm -f *.a
 
 deps:
-	git submodule update
 	curl https://raw.githubusercontent.com/slembcke/debugger.lua/master/debugger.lua >debugger.lua
