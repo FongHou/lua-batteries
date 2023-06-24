@@ -7,7 +7,7 @@ import (
 // #cgo LDFLAGS: -static-libgcc -L/usr/local/lib -lluajit-5.1 -L${SRCDIR} -Wl,--whole-archive -lluabatteries -Wl,--no-whole-archive -Wl,-E
 import "C"
 
-func main() {
+func init() {
 	opts := glua.NewOptions().SetPreloadScripeMethod(func() string {
 		return `
 		local ok, fennel = pcall(require, 'fennel')
