@@ -32,15 +32,15 @@ end
 --simple sequential iteration, f is called for all elements of t
 --f can return non-nil to break the loop (and return the value)
 --otherwise returns t for chaining
--- function functional.foreach(t, f)
--- 	for i = 1, #t do
--- 		local result = f(t[i], i)
--- 		if result ~= nil then
--- 			return result
--- 		end
--- 	end
--- 	return t
--- end
+function functional.foreach(t, f)
+	for i = 1, #t do
+		local result = f(t[i], i)
+		if result ~= nil then
+			return result
+		end
+	end
+	return t
+end
 
 --performs a left to right reduction of t using f, with seed as the initial value
 -- reduce({1, 2, 3}, 0, f) -> f(f(f(0, 1), 2), 3)
@@ -236,7 +236,7 @@ end
 -- (ie results from functions should generally be sequences,
 --  which are appended onto each other, resulting in one big sequence)
 -- (automatically drops any nils, same as map)
-function functional.flatmap(t, f)
+function functional.stitch(t, f)
 	local result = {}
 	for i, v in ipairs(t) do
 		v = f(v, i)
@@ -254,7 +254,7 @@ function functional.flatmap(t, f)
 end
 
 --alias
-functional.mapcat = functional.flatmap
+functional.map_stitch = functional.stitch
 
 --maps a sequence {a, b, c} -> { f(a, b), f(b, c), f(c, a) }
 -- useful for inter-dependent data
@@ -367,6 +367,17 @@ function functional.count(t, f)
 	local c = 0
 	for i = 1, #t do
 		if f(t[i], i) then
+			c = c + 1
+		end
+	end
+	return c
+end
+
+--counts the elements of t equal to v
+function functional.count_value(t, v)
+	local c = 0
+	for i = 1, #t do
+		if t[i] == v then
 			c = c + 1
 		end
 	end

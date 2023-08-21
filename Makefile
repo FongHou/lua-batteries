@@ -1,5 +1,5 @@
-FNL_SRC= $(shell find -type f -name '*.fnl' | sed 's/.fnl$$/.lua/')
-OBJS= $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
+FNLSRC= $(shell find  -name '*.fnl' | sed 's/.fnl$$/.lua/')
+LUAOBJ= $(shell find  -name '*.lua' | sed 's/.lua$$/.o/')
 
 %.lua: %.fnl
 	fennel -c $< >$@
@@ -7,12 +7,14 @@ OBJS= $(shell find -type f -name '*.lua' | sed 's/.lua$$/.o/')
 %.o: %.lua
 	luajit -b $< $@
 
-all: ${OBJS}
-	ar rcs libluabatteries.a ${OBJS}
+all: $(LUAOBJ)
+	ar rcs libluabatteries.a $(LUAOBJ)
 
 clean:
-	find . -type f -name \*.o -exec rm '{}' \;
+	find . -name \*.o -exec rm '{}' \;
 	rm -f *.a
 
 deps:
 	curl https://raw.githubusercontent.com/slembcke/debugger.lua/master/debugger.lua >debugger.lua
+	curl https://raw.githubusercontent.com/kikito/inspect.lua/master/inspect.lua >inspect.lua
+	curl https://git.sr.ht/~technomancy/faith/blob/0ec6836d0a8425d0c0c9638804cb43cf50321abb/faith.fnl >faith.fnl
