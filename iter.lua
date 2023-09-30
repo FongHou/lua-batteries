@@ -298,7 +298,6 @@ exports.rands = rands
 --------------------------------------------------------------------------------
 
 local nth = function(n, gen_x, param_x, state_x)
-    jit.flush()
     assert(n > 0, "invalid first argument to nth")
     -- An optimization for arrays and strings
     if gen_x == ipairs_gen then
