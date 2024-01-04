@@ -106,7 +106,7 @@ local function error_match(pat, f, _3fmsg)
   end
 end
 local function extra_fields_3f(t, keys)
-  local function _17_()
+  local function _17_(...)
     local extra_3f = false
     for k in pairs(t) do
       if extra_3f then break end
@@ -123,7 +123,7 @@ local function extra_fields_3f(t, keys)
 end
 local function table_3d(x, y, equal_3f)
   local keys = {}
-  local function _19_()
+  local function _19_(...)
     local same_3f = true
     for k, v in pairs(x) do
       if not same_3f then break end
